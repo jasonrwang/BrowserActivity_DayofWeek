@@ -21,9 +21,6 @@ con = None
 
 try:
 
-    # For Testing
-    #print "Opened database successfully";
-
     con = lite.connect(database)
     cur =  con.cursor()
     
