@@ -1,19 +1,24 @@
-# SafariActivity_DayofWeek
+# BrowserActivity_DayofWeek
 
-Extracts activity from `History.db` for OS X/macOS's Safari and plots how active I am on different days of the week.
+Extracts history activity for Safari and Chrome on OS X/macOS and plots proportional amount of activity for different days of the week.
 
 ![Figure 1](https://i.imgur.com/wUEHNIg.png)
 
 I don't really know what this says about my behaviour and would like to process the data more in future versions to gain more insight.
 
 ## To use:
-1. Download this script or `git clone https://github.com/jasonrwang/SafariActivity_DayofWeek.git` so you have a local copy
+1. Download this script or `git clone https://github.com/jasonrwang/BrowserActivity_DayofWeek.git` so you have a local copy
 2. Use Terminal to navigate to find main.py
 3. Type in `python main.py`
 
 Alternatively, if you download this to your Downloads folder, use `python ~/Downloads/main.py` from Terminal
 
 ## Changelog
+v0.3	Chrome added, Rename
+* Also gathers information from Google Chrome
+* Processes sum of Chrome and Safari data
+* Rename to BrowserActivity_DayofWeek from SafariActivity_DayofWeek
+
 v0.2	Percent Use
 * Displays output in percentage of total instead of raw value since it is more valuable and protects privacy
 
