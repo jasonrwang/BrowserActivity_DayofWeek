@@ -14,14 +14,16 @@ I don't really know what this says about my behaviour and would like to process 
 Alternatively, if you download this to your Downloads folder, use `python ~/Downloads/main.py` from Terminal
 
 ## Timezones:
-Input into timezones.txt a comma separated list of timezones you were in.
+Input into timezones.txt a comma separated list of timezones you were in. If you were only in one timezone, you will still need to use this.
 
 Format: `start_time,end_time,time_zone`
-Times should be in UNIX timestamp format or 'now' (without quotations). Timezones should be in [Olson time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+Times should be in ISO 8601 () format or 'now' (without quotations). Timezones should be in [Olson time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). Use `0,now,[Your timezone code]` as a default.
 
 ## Changelog
-v0.4.2 Time zone support
-* Is able to handle travel in different timezones as defined in timezones.txt 
+v0.4.2 Limited timezone support
+* Added time zone support as defined in timezones.txt
+* Can filter all data to a single time period as well if it is in the same time zone
+* Timezones can be improved if it was easier to input!
 
 v0.4.1 	Hour of Day Analysis added
 * Also analyzes and displays information about usage at different hours during a day

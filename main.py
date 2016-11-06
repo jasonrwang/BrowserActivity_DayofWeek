@@ -13,10 +13,10 @@ from datetime import datetime, timedelta
 from pytz import timezone
 import pytz
 from matplotlib.ticker import FuncFormatter
+import os
 
 # Find the history databases
-from os.path import expanduser
-home = expanduser("~")
+home = os.path.expanduser("~")
 # Find the Safari history database which is in ~/Library/Safari/ by default
 safari_database = home + "/Library/Safari/History.db"
 # Find the Chrome history database which is in ~/Library/Safari/ by default
@@ -65,18 +65,54 @@ except lite.Error, e:
 finally:
     
     if con:
-        
+
+        # Time filter
+        utc = pytz.utc
+
+        script_dir = os.path.dirname(__file__)
+        timezone_input = os.path.join(script_dir, 'timezones.txt')
+        timezone_input = open(timezone_input,'r')
+        timezone_input = timezone_input.read().splitlines()
+        data_filtered = list()
+
         # Format UNIX timestamp to datetime
         data = np.asarray(data, 'datetime64[s]')
         data = data.tolist()
+        data = map(lambda x: utc.localize(x), data)
+        
+        # Add local time zone information to each time
+        for period in range(0, len(timezone_input)):
+
+            period_info = timezone_input[period].split(',')
+            zone = timezone(period_info[2])
+            time_format = '%Y-%m-%d %H:%M'
+            time_lower = datetime.strptime(period_info[0], time_format)
+            
+            if period_info[1] in 'now':
+                time_upper = datetime.fromtimestamp(time.time())
+            else:
+                time_upper = datetime.strptime(period_info[1], time_format)
+
+            time_lower = zone.localize(time_lower)
+            time_upper = zone.localize(time_upper)
+
+            # Need to add error checking if upper is larger than lower!
+
+            data_temp = [i for i in data if i >= time_lower and i <= time_upper]
+            data_temp = map(lambda x: x.astimezone(zone), data_temp)
+            data_filtered = data_filtered + data_temp
+        
+        print('Check length of data... if processed data is less than history, some has been missed; if more, some are double counted. Check timezones.txt!')
+        print('Length of history data:\t\t' + str(len(data)))
+        print('Length of processed data:\t' + str(len(data_filtered)))
 
         # Find the day of week where 0 is Monday and 6 is Sunday
-        day_of_week = map(lambda x: x.weekday(), data)
+        day_of_week = map(lambda x: x.weekday(), data_filtered)
         # Find the hour of the day
-        time_of_day = map(lambda x: int(x.strftime('%H')), data)
-        
+        time_of_day = map(lambda x: int(x.strftime('%H')), data_filtered)
+
         ## Plot a histogram of the results
-        
+
         # Day of Week
         pl.figure(1)
         names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -88,7 +124,7 @@ finally:
         # Hour of Day
         pl.figure(2)
         names = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
-        pl.hist(time_of_day, bins = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], align = "left", normed = 'true')
+        pl.hist(time_of_day, bins = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], normed = 'true')
         pl.xlabel('Hour of Day')
         pl.xticks([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], names, size = "small")
         pl.ylabel('Proportion of All Activity / %')
@@ -116,5 +152,6 @@ finally:
         pl.show()
 
         # To split analysis up into weeks, check for when a value is less than the previous.
-        
-        con.close()
+        print('Done.')
+
+    con.close()
