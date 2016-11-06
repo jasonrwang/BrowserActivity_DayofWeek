@@ -20,6 +20,9 @@ Format: `start_time,end_time,time_zone`
 Times should be in UNIX timestamp format or 'now' (without quotations). Timezones should be in [Olson time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
 ## Changelog
+v0.4.2 Time zone support
+* Is able to handle travel in different timezones as defined in timezones.txt 
+
 v0.4.1 	Hour of Day Analysis added
 * Also analyzes and displays information about usage at different hours during a day
 * Uses naive datetimes i.e. does not account for history in different timezones
