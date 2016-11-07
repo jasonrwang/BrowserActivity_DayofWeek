@@ -1,8 +1,10 @@
 # BrowserActivity_DayofWeek
 
-Extracts history activity for Safari and Chrome on OS X/macOS and plots proportional amount of activity for different days of the week.
+Extracts history activity for Safari and Chrome on OS X/macOS and plots proportional amount of activity for different days of the week and for different hours of a day (localized by time zone).
 
 ![Figure 1](https://i.imgur.com/wUEHNIg.png)
+
+![Figure 2](https://i.imgur.com/GsyhATl.png)
 
 I don't really know what this says about my behaviour and would like to process the data more in future versions to gain more insight.
 

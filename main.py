@@ -113,6 +113,10 @@ finally:
 
         ## Plot a histogram of the results
 
+        # Create the formatter using the function to_percent. This multiplies all the
+        # default labels by 100, making them all percentages
+        formatter = FuncFormatter(to_percent)
+
         # Day of Week
         pl.figure(1)
         names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -120,6 +124,7 @@ finally:
         pl.xlabel('Day of Week')
         pl.xticks([0,1,2,3,4,5,6,7], names, size = "small")
         pl.ylabel('Proportion of All Activity / %')
+        pl.gca().yaxis.set_major_formatter(formatter)
 
         # Hour of Day
         pl.figure(2)
@@ -128,30 +133,25 @@ finally:
         pl.xlabel('Hour of Day')
         pl.xticks([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24], names, size = "small")
         pl.ylabel('Proportion of All Activity / %')
-
-        # Define function to format the y-axis labels to be in percent
-        # http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
-        def to_percent(y, position):
-            # Ignore the passed in position. This has the effect of scaling the default
-            # tick locations.
-            s = str(100 * y)
-
-            # The percent symbol needs escaping in latex
-            if matplotlib.rcParams['text.usetex'] is True:
-                return s + r'$\%$'
-            else:
-                return s + '%'
-
-        # Create the formatter using the function to_percent. This multiplies all the
-        # default labels by 100, making them all percentages
-        formatter = FuncFormatter(to_percent)
-
-        # Set the formatter
         pl.gca().yaxis.set_major_formatter(formatter)
         
+        # Show figures
         pl.show()
 
         # To split analysis up into weeks, check for when a value is less than the previous.
         print('Done.')
 
     con.close()
+
+# Define function to format the y-axis labels to be in percent
+# http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
+def to_percent(y, position):
+    # Ignore the passed in position. This has the effect of scaling the default
+    # tick locations.
+    s = str(100 * y)
+
+    # The percent symbol needs escaping in latex
+    if matplotlib.rcParams['text.usetex'] is True:
+        return s + r'$\%$'
+    else:
+        return s + '%'
