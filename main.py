@@ -115,6 +115,19 @@ finally:
 
         # Create the formatter using the function to_percent. This multiplies all the
         # default labels by 100, making them all percentages
+        # Define function to format the y-axis labels to be in percent
+        # http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
+        def to_percent(y, position):
+        # Ignore the passed in position. This has the effect of scaling the default
+        # tick locations.
+            s = str(int(100 * y))
+            
+            # The percent symbol needs escaping in latex
+            if matplotlib.rcParams['text.usetex'] is True:
+                return s + r'$\%$'
+            else:
+                return s + '%'
+        
         formatter = FuncFormatter(to_percent)
 
         # Day of Week
@@ -142,16 +155,3 @@ finally:
         print('Done.')
 
     con.close()
-
-# Define function to format the y-axis labels to be in percent
-# http://matplotlib.org/examples/pylab_examples/histogram_percent_demo.html
-def to_percent(y, position):
-    # Ignore the passed in position. This has the effect of scaling the default
-    # tick locations.
-    s = str(100 * y)
-
-    # The percent symbol needs escaping in latex
-    if matplotlib.rcParams['text.usetex'] is True:
-        return s + r'$\%$'
-    else:
-        return s + '%'
