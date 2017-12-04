@@ -13,7 +13,7 @@ I don't really know what this says about my behaviour and would like to process 
 2. Use Terminal to navigate to find main.py
 3. Type in `python main.py`
 
-Alternatively, if you download this to your Downloads folder, use `python ~/Downloads/main.py` from Terminal
+Alternatively, if you download this as a ZIP to your Downloads folder, use `python ~/Downloads/BrowserActivity_DayofWee-master/main.py` from Terminal
 
 ## Timezones:
 Input into timezones.txt a comma separated list of timezones you were in. If you were only in one timezone, you will still need to use this.
